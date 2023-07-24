@@ -1,4 +1,5 @@
 import discord
+from PIL import ImageGrab, Image
 
 bot = discord.Bot()
 with open("token") as f:
@@ -22,4 +23,13 @@ async def showmefinfin(ctx):
         picture = discord.File(f)
         await ctx.respond(file=picture)
 
+@bot.slash_command(description="Get live picture of FinFin's world", guild_ids=[your guild id here])
+async def capture(ctx):
+    pic = ImageGrab.grab(bbox=(295, 47, 1625, 1050)) 
+    #hardcoded window location snapped to top left on 4k monitor
+    pic.save('finfin_live.png')
+    with open('finfin_live.png', 'rb') as f:
+        livepicture = discord.File(f)
+        await ctx.respond(file=livepicture)
+        
 bot.run(bottoken)
